@@ -1,0 +1,100 @@
+---
+title: "Data Visualization"
+author: "Mikeal Watson"
+format: "html"
+editor: "visual"
+---
+
+### Loading Tidyverse
+
+```{r}
+library(tidyverse)
+```
+
+I'm starting out by looking at all available data sets in Rstudio.
+
+```{r}
+data()
+```
+
+```{r}
+BOD
+```
+
+I've chosen the BOD, which stands for Biochemical Oxygen Demand. I don't have a specific reason for choosing this data. Honestly, it looked like simple data to work with.
+
+I've placed time on the x axis and demand on the y axis. Demand depends on time is how I've thought about it.
+
+```{r}
+ggplot(data = BOD,
+       mapping = aes(x = Time,
+                     y = demand))+
+  geom_point()
+```
+
+I've now added my points and my line graph.
+
+```{r}
+ggplot(data = BOD,
+       mapping = aes(x = Time,
+                     y = demand))+
+  geom_point(size = 4)+
+  geom_line(color = "blue")
+```
+
+```{r}
+ggplot(BOD, aes(Time, demand))+
+  geom_point(size = 3)+
+  geom_line(color ="blue")
+```
+
+```{r}
+BOD |>
+  ggplot(aes(Time, demand,
+             ))+
+  geom_point(size = 3)+
+  geom_line(color = "blue")
+```
+
+I've used the \|\> feature to simply
+
+```{r}
+CO2 |>
+  ggplot(aes(conc,uptake,
+             color = Treatment ))+
+  geom_point()
+```
+
+```{r}
+CO2 |>
+  ggplot(aes(conc,uptake,
+             color = Treatment ))+
+  geom_point(size = 1.5, alpha = .5)+
+  geom_smooth(method = lm, se = F)+
+  facet_wrap(~Type)+
+  labs(title = "CO2 Concetration")+
+  theme_bw()
+```
+
+```{r}
+CO2 |>
+  ggplot(aes(Treatment, uptake))+
+  geom_boxplot()+
+  geom_point(aes(size = conc,
+                 color = Plant))
+```
+
+In this graph, I've decided to map inside of the geom_point instead of the top layers of the code, versus my previous graph where I mapped inside of the ggplot chunk.
+
+```{r}
+CO2 |>
+  ggplot(aes(Treatment, uptake))+
+  geom_boxplot()+
+  geom_point(alpha = 0.5,
+             aes(size = conc,
+                 color = Plant))+
+  facet_wrap(~Type)+
+  coord_flip()+
+  theme_dark()+
+  labs(title = "Chilled vs Non-Chilled")
+```
